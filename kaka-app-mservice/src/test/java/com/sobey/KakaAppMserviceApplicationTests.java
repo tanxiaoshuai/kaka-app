@@ -10,6 +10,7 @@ import com.sobey.model.JobBean;
 import com.sobey.model.SiteBean;
 import com.sobey.model.UserBean;
 import com.sobey.dao.UserDao;
+import com.sobey.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class KakaAppMserviceApplicationTests {
 
 	@Autowired
 	private JobDao jobDao;
+
+	@Autowired
+	private RedisUtil redisUtil;
 
 	@Test
 	public void contextLoads() throws Exception {
@@ -92,11 +96,15 @@ public class KakaAppMserviceApplicationTests {
 //		List list = templateDao.findBySQLToList("username = '谭帅'" , UserBean.class );
 //		Object obj = templateDao.findBySQLToBean("select * from t_user where username = '谭帅'");
 //		System.out.println(JSONArray.toJSON(bean));
-		UserBean userbean = templateDao.findBySQLToBean("select u.* , s.sitename as sitename , s.sitecode as sitecode , j.jobname as jobname , d.departmentname as departmentname from t_user u , t_site s , t_user_site us , t_job j , t_department d where us.userid = u.userid and us.siteid = s.siteid and j.jobid = us.jobid and us.departmentid = d.departmentid");
+//		UserBean userbean = templateDao.findBySQLToBean("select u.* , s.sitename as sitename , s.sitecode as sitecode , j.jobname as jobname , d.departmentname as departmentname from t_user u , t_site s , t_user_site us , t_job j , t_department d where us.userid = u.userid and us.siteid = s.siteid and j.jobid = us.jobid and us.departmentid = d.departmentid");
+//		userbean.setToken(UUID.randomUUID().toString().replace("-" , ""));
+//		redisUtil.add(userbean.getUserid() , userbean);
+
+//		UserBean userbean = (UserBean) redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7");
 
 //		UserBean userbean = templateDao.findBySQLToBean("select * from t_user where userid = '2a2c94a9f30b4ce698fe886477af94e7' ");
 
-		System.out.println(JSONObject.toJSON(userbean));
+		System.out.println(JSONObject.toJSON(redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7")));
 	}
 
 }
