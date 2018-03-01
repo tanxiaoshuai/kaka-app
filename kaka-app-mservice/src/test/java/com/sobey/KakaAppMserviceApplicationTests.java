@@ -1,23 +1,18 @@
 package com.sobey;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sobey.dao.DepartmentDao;
 import com.sobey.dao.JobDao;
 import com.sobey.dao.SiteDao;
-import com.sobey.model.DepartmentBean;
-import com.sobey.model.JobBean;
-import com.sobey.model.SiteBean;
 import com.sobey.model.UserBean;
 import com.sobey.dao.UserDao;
 import com.sobey.util.RedisUtil;
+import com.sobey.util.TokenUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -96,15 +91,31 @@ public class KakaAppMserviceApplicationTests {
 //		List list = templateDao.findBySQLToList("username = '谭帅'" , UserBean.class );
 //		Object obj = templateDao.findBySQLToBean("select * from t_user where username = '谭帅'");
 //		System.out.println(JSONArray.toJSON(bean));
-//		UserBean userbean = templateDao.findBySQLToBean("select u.* , s.sitename as sitename , s.sitecode as sitecode , j.jobname as jobname , d.departmentname as departmentname from t_user u , t_site s , t_user_site us , t_job j , t_department d where us.userid = u.userid and us.siteid = s.siteid and j.jobid = us.jobid and us.departmentid = d.departmentid");
-//		userbean.setToken(UUID.randomUUID().toString().replace("-" , ""));
-//		redisUtil.add(userbean.getUserid() , userbean);
+		UserBean userbean = templateDao.userByPhone("13088094976");
+		System.out.println(JSONObject.toJSON(userbean));
+//		System.out.println("token:" + TokenUtil.createToken(userbean.getUserid() , System.currentTimeMillis() , userbean.getDeviceId()));
+//		System.out.println(new String(Base64Utils.decodeFromString("MmEyYzk0YTlmMzBiNGNlNjk4ZmU4ODY0NzdhZjk0ZTcmMTUxOTg3MzA0MDg0NSZ1dWRiMjA4MTdqbGl5dXl0")));
+//		userbean.setToken(TokenUtil.createToken(userbean.getUserid() , System.currentTimeMillis() , userbean.getDeviceId()));
+//		redisUtil.set(userbean.getUserid() , userbean);
+//		System.out.println(redisUtil.exists("2a2c94a9f30b4ce698fe886477af94e7"));
+//		long s = System.currentTimeMillis();
+//		try {
+//			TokenUtil.checkToken("MmEyYzk0YTlmMzBiNGNlNjk4ZmU4ODY0NzdhZjk0ZTcmMTUxOTg4MjYxMjIxNyZ1dWRiMjA4MTdqbGl5dXl0");
+//			System.out.println(System.currentTimeMillis() - s);
+//		}catch (Exception e){
+//			System.out.println(System.currentTimeMillis() - s);
+//		}
+
+//		System.out.println(JSONObject.toJSON(redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7")));
+//		redisUtil.remove("2a2c94a9f30b4ce698fe886477af94e7");
+//		System.out.println(redisUtil.getExpire("2a2c94a9f30b4ce698fe886477af94e7"));
+
 
 //		UserBean userbean = (UserBean) redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7");
 
 //		UserBean userbean = templateDao.findBySQLToBean("select * from t_user where userid = '2a2c94a9f30b4ce698fe886477af94e7' ");
 
-		System.out.println(JSONObject.toJSON(redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7")));
+//		System.out.println(JSONObject.toJSON(redisUtil.get("2a2c94a9f30b4ce698fe886477af94e7")));
 	}
 
 }
