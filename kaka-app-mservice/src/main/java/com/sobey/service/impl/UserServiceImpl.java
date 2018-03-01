@@ -34,7 +34,7 @@ public class UserServiceImpl implements IUserService{
         if(!userBean.getPwd().equals(user.getPwd()))
             throw new FinalException(ResultInfo.PASSWORDERROR);
         long s = System.currentTimeMillis();
-        String token = TokenUtil.createToken(user.getUserid() , s , user.getDeviceId());
+        String token = TokenUtil.createToken(user.getUserid() , s , userBean.getDeviceId());
         user.setDeviceId(userBean.getDeviceId());
         user.setAppversion(userBean.getAppversion());
         user.setDevicetype(userBean.getDevicetype());
@@ -44,6 +44,7 @@ public class UserServiceImpl implements IUserService{
         user.setToken(token);
         user.setLoginstatus(1);
         userBean = new UserBean();
+        userBean.setUserid(user.getUserid());
         userBean.setAppversion(user.getAppversion());
         userBean.setDeviceId(user.getDeviceId());
         userBean.setDevicetype(user.getDevicetype());
@@ -52,7 +53,7 @@ public class UserServiceImpl implements IUserService{
         userBean.setLoginnumber(user.getLoginnumber());
         userBean.setLastlogintime(user.getLastlogintime());
         userBean.setToken(user.getToken());
-        userDao.updateById(user);
+        userDao.updateById(userBean);
         redisUtil.set(user.getUserid() , user , 1000*60*60L);
         return ResultUtil.success(user);
     }

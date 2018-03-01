@@ -5,6 +5,8 @@ import com.sobey.dao.annotation.TableName;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by TS on 2018/2/23.
  */
@@ -135,6 +137,8 @@ public class UserBean {
      * 职位名称
      */
     private String jobname;
+
+    private List<SiteBean> sitelist;
 
     public String getUserid() {
         return userid;
@@ -302,5 +306,13 @@ public class UserBean {
 
     public void setJobname(String jobname) {
         this.jobname = jobname;
+    }
+
+    public List<SiteBean> getSitelist() {
+        return sitelist;
+    }
+
+    public void setSitelist(List<SiteBean> sitelist) {
+        this.sitelist = sitelist;
     }
 }

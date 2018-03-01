@@ -27,7 +27,7 @@ public class URLInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String reqUrl = httpServletRequest.getRequestURL().toString().trim();
         logger.info("当前请求的地址：["+ reqUrl +"]");
-        return true;
+        return false;
     }
 
     //请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）
