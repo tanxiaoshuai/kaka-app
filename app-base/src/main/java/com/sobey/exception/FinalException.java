@@ -1,5 +1,7 @@
 package com.sobey.exception;
 
+import com.sobey.config.ResultInfo;
+
 /**
  * 自定义异常处理类
  * Created by TS on 2017/7/9.
@@ -15,6 +17,12 @@ public class FinalException extends RuntimeException{
         super(msg);
         this.code = code;
     }
+
+    public FinalException(ResultInfo e){
+        super(e.getMsg());
+        this.code = e.getCode();
+    }
+
 
     public String getCode() {
         return code;

@@ -46,7 +46,7 @@ CREATE TABLE `t_job` (
 
 /*Data for the table `t_job` */
 
-insert  into `t_job`(`jobid`,`jobname`,`siteid`,`details`) values ('f2849e1b84ce4a7487613b9785d5dea9','后端研发','02716c8de1fc4c3381c8ef7ae1fd37bb','员工描述');
+insert  into `t_job`(`jobid`,`jobname`,`siteid`,`details`) values ('f2849e1b84ce4a7487613b9785d5dea0','后端研发','','员工描述'),('f2849e1b84ce4a7487613b9785d5dea1','前端',NULL,'员工描述');
 
 /*Table structure for table `t_site` */
 
@@ -82,7 +82,7 @@ CREATE TABLE `t_user` (
   `appversion` varchar(32) DEFAULT NULL,
   `devicemodel` varchar(32) DEFAULT NULL,
   `deviceId` varchar(32) DEFAULT NULL,
-  `token` varchar(100) DEFAULT NULL,
+  `token` varchar(300) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `emil` varchar(64) DEFAULT NULL,
   `loginnumber` bigint(20) DEFAULT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE `t_user` (
 
 /*Data for the table `t_user` */
 
-insert  into `t_user`(`userid`,`headimg`,`username`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`token`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','13088094976','616823670','2018-02-28 15:40:43','2018-02-28 15:40:43','ios','1.0.0','Apple 7','uudb20817jliyuyt','token_21790172c9394ed489a658ed38f83398',1,'616823670@qq.com',1,1,10240);
+insert  into `t_user`(`userid`,`headimg`,`username`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`token`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','13088094976','616823670','2018-02-28 15:40:43','2018-03-01 17:50:15','ios','1.0.0','Apple 7','uudb20817jliyuyt','MmEyYzk0YTlmMzBiNGNlNjk4ZmU4ODY0NzdhZjk0ZTcmMTUxOTg5NzgxNTk4NyZ1dWRiMjA4MTdqbGl5dXl0',1,'616823670@qq.com',50,1,10240),('b8ccbb7ccf4f486ab209ef8723195fef',NULL,NULL,'18380483924','6c5410b4585649bbe5668987ee6613f5','2018-03-01 18:19:58','2018-03-01 18:19:58','ios','1.0.0','Apple 6s','this phoneid',NULL,0,NULL,1,1,NULL);
 
 /*Table structure for table `t_user_site` */
 
@@ -108,7 +108,7 @@ CREATE TABLE `t_user_site` (
 
 /*Data for the table `t_user_site` */
 
-insert  into `t_user_site`(`userid`,`siteid`,`jobid`,`departmentid`) values ('2a2c94a9f30b4ce698fe886477af94e7','02716c8de1fc4c3381c8ef7ae1fd37bb','f2849e1b84ce4a7487613b9785d5dea9','da82428590e5459b96eea0d414f1d0a6');
+insert  into `t_user_site`(`userid`,`siteid`,`jobid`,`departmentid`) values ('2a2c94a9f30b4ce698fe886477af94e7','02716c8de1fc4c3381c8ef7ae1fd37bb','f2849e1b84ce4a7487613b9785d5dea1','da82428590e5459b96eea0d414f1d0a6');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

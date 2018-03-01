@@ -23,7 +23,7 @@ public class ExceptionHandle {
             FinalException ex = (FinalException) e;
             return ResultUtil.error(ex.getCode() , ex.getMessage());
         }else {
-            return ResultUtil.error(ResultInfo.EXCEPTION_CODE , e.toString());
+            return ResultUtil.error(ResultInfo.EXCEPTION.setMsg(e.toString()));
         }
     }
 

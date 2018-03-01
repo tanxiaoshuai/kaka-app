@@ -23,16 +23,8 @@ public class RedisUtil {
      * @param value
      * @return
      */
-    public boolean set(final String key, Object value) {
-        boolean result = false;
-        try {
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+    public void set(final String key, Object value) {
+        redisTemplate.opsForValue().set(key, value);
     }
     /**
      * 写入缓存设置时效时间
@@ -40,39 +32,11 @@ public class RedisUtil {
      * @param value
      * @return
      */
-    public boolean set(final String key, Object value, Long expireTime) {
-        boolean result = false;
-        try {
-            ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.set(key, value);
-            if(expireTime > 0){
-                redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
-            }
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    /**
-     * 批量删除对应的value
-     * @param keys
-     */
-    public void remove(final String... keys) {
-        for (String key : keys) {
-            remove(key);
-        }
+    public void set(final String key, Object value, Long expireTime) {
+        redisTemplate.opsForValue().set(key, value);
+        redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
-    /**
-     * 批量删除key
-     * @param pattern
-     */
-    public void removePattern(final String pattern) {
-        Set<Serializable> keys = redisTemplate.keys(pattern);
-        if (keys.size() > 0)
-            redisTemplate.delete(keys);
-    }
     /**
      * 删除对应的value
      * @param key
@@ -82,6 +46,7 @@ public class RedisUtil {
             redisTemplate.delete(key);
         }
     }
+
     /**
      * 判断缓存中是否有对应的value
      * @param key
@@ -97,10 +62,7 @@ public class RedisUtil {
      * @return
      */
     public Object get(final String key) {
-        Object result = null;
-        ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-        result = operations.get(key);
-        return result;
+        return redisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -110,8 +72,7 @@ public class RedisUtil {
      * @param value
      */
     public void hmSet(String key, Object hashKey, Object value , long expireTime){
-        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        hash.put(key,hashKey,value);
+        redisTemplate.opsForHash().put(key,hashKey,value);
         redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
@@ -135,16 +96,6 @@ public class RedisUtil {
     public Object hmGet(String key, Object hashKey){
         HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
         return hash.get(key,hashKey);
-    }
-
-    /**
-     * 获取hashmap所有的值
-     * @param uuid
-     * @return
-     */
-    public Object getmap(String uuid){
-        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        return hash.values(uuid);
     }
 
     /**
@@ -218,8 +169,7 @@ public class RedisUtil {
      * @return
      */
     public Long getExpire(String key){
-        Long time = redisTemplate.getExpire(key , TimeUnit.SECONDS);
-        return time;
+        return redisTemplate.getExpire(key , TimeUnit.SECONDS);
     }
 
     /**
@@ -230,7 +180,5 @@ public class RedisUtil {
     public void setExpire(String key , Long time){
         redisTemplate.expire(key, time, TimeUnit.SECONDS);
     }
-
-
 
 }

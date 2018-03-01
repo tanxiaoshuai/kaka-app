@@ -1,21 +1,29 @@
 package com.sobey.controller;
 import com.sobey.model.UserBean;
+import com.sobey.service.IUserService;
 import com.sobey.util.ParamValidateUtil;
 import com.sobey.util.ResultUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by TS on 2018/2/23.
  */
 @RestController
+@RequestMapping("/rest")
 public class UserController {
 
-    @PostMapping("/rest/add")
-    public Object add(@RequestBody UserBean userBean) throws Exception{
-        ParamValidateUtil.notNull("" , "头像不能为空");
-        return ResultUtil.success(userBean);
+    @Autowired
+    private IUserService userService;
+
+    @PostMapping("/user/login")
+    public Object login(@RequestBody UserBean userBean) throws Exception{
+        return userService.login(userBean);
+    }
+
+    @PostMapping("/user/registe")
+    public Object registe(@RequestBody UserBean userBean , String code) throws Exception{
+        return userService.registe(userBean , code);
     }
 
 }

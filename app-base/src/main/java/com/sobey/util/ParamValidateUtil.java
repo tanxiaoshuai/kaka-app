@@ -1,6 +1,4 @@
 package com.sobey.util;
-
-import com.sobey.config.RegexConfig;
 import com.sobey.config.ResultInfo;
 import com.sobey.exception.FinalException;
 
@@ -10,52 +8,59 @@ import com.sobey.exception.FinalException;
 public class ParamValidateUtil {
 
     public static void notNull(String param , String msg){
+
         if(RegexUtil.isNull(param))
-            throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
     public static void length(int min , long max , String param , String msg){
         long len = param.length();
         if (len < min || len > max)
-            throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
     public static void min(int min , Object param, String msg){
         if(param instanceof String)
             if (((String) param).length() < min)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
         if(param instanceof Integer)
             if ((Integer)param < min)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
         if(param instanceof Long)
             if ((Long)param < min)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
     public static void max(int max , Object param, String msg){
         if(param instanceof String)
             if (((String) param).length() > max)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
         if(param instanceof Integer)
             if ((Integer)param > max)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
         if(param instanceof Long)
             if ((Long)param > max)
-                throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+                throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
     public static void email (String em , String msg){
         if(!RegexUtil.isEmail(em))
-            throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
+    }
+
+    public static void phone(String em , String msg){
+        if(!RegexUtil.isMobile(em))
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
     public static void pattern(String param , String reg , String msg){
         if(!RegexUtil.match(param , reg))
-            throw new FinalException(ResultInfo.ERROR_PARAM_CODE , msg);
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
 
     public static void main(String[] args) throws Exception {
-        pattern("2008-02-29 02:21" , RegexConfig.DATE_TO_SS , "时间格式错误");
+//        pattern("2008-02-29 02:21" , RegexConfig.DATE_TO_SS , "时间格式错误");
+//        phone("14088094978" , "电话号码");
     }
 }
