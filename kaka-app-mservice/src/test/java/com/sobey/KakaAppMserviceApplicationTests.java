@@ -93,9 +93,7 @@ public class KakaAppMserviceApplicationTests {
 //		Object obj = templateDao.findBySQLToBean("select * from t_user where username = '谭帅'");
 //		System.out.println(JSONArray.toJSON(bean));
 		UserBean userbean = templateDao.findBySQLToBean("select u.* , s.sitename as sitename , s.sitecode as sitecode , j.jobname as jobname , d.departmentname as departmentname from t_user u , t_site s , t_user_site us , t_job j , t_department d where us.userid = u.userid and us.siteid = s.siteid and j.jobid = us.jobid and us.departmentid = d.departmentid");
-
 //		UserBean userbean = templateDao.findBySQLToBean("select * from t_user where userid = '2a2c94a9f30b4ce698fe886477af94e7' ");
-
 		System.out.println(JSONObject.toJSON(userbean));
 	}
 
