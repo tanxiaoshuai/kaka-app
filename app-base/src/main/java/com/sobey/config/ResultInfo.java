@@ -8,12 +8,13 @@ public enum  ResultInfo {
     SUCCESS("0000","操作成功"),
     ERROR_PARAM("0001","参数错误"),
     EXCEPTION("0002","系统异常"),
-    NOAUTHORIZE("0003" , "未授权失败"),
+    NOAUTHORIZE("0003" , "未授权"),
     LOGINOUTTIME("0004" , "登录失效"),
     ANOTHERdDEVICELOGIN("0005" , "用户在其他设备上登录"),
     USERISNULL("0006" , "用户不存在"),
     USERISNOTNULL("0007" , "用户存在"),
     PASSWORDERROR("0008" , "密码错误"),
+    TOKENCHECKERROR("0009" , "认证失败")
 
 
 

@@ -72,4 +72,23 @@ public class SiteBean {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"siteid\":\"")
+                .append(siteid).append('\"');
+        sb.append(",\"sitename\":\"")
+                .append(sitename).append('\"');
+        sb.append(",\"sitecode\":\"")
+                .append(sitecode).append('\"');
+        sb.append(",\"createtime\":\"")
+                .append(createtime).append('\"');
+        sb.append(",\"details\":\"")
+                .append(details).append('\"');
+        sb.append(",\"status\":")
+                .append(status);
+        sb.append('}');
+        return sb.toString();
+    }
 }

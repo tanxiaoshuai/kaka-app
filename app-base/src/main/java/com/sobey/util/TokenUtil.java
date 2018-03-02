@@ -27,7 +27,7 @@ public class TokenUtil {
         return list;
     }
 
-    public static void checkToken(String token){
+    public static boolean checkToken(String token){
         if(RegexUtil.isNull(token))
             throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = tokenParam(token);
@@ -39,8 +39,9 @@ public class TokenUtil {
             if (!user.getDeviceId().equals(list.get(2)))
                 throw new FinalException(ResultInfo.ANOTHERdDEVICELOGIN);
             else
-                throw new FinalException(ResultInfo.NOAUTHORIZE);
+                throw new FinalException(ResultInfo.TOKENCHECKERROR);
         }
+        return true;
     }
 
 }

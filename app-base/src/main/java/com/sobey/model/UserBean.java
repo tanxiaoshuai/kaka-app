@@ -1,4 +1,5 @@
 package com.sobey.model;
+import com.sobey.config.AppConfig;
 import com.sobey.dao.annotation.Column;
 import com.sobey.dao.annotation.ID;
 import com.sobey.dao.annotation.TableName;
@@ -121,7 +122,8 @@ public class UserBean {
     /**
      * 站点code
      */
-    private String sitecode;
+    @Column
+    private String sitecode = AppConfig.DEFAULT_SITECODE;
 
     /**
      * 站点名称
@@ -314,5 +316,56 @@ public class UserBean {
 
     public void setSitelist(List<SiteBean> sitelist) {
         this.sitelist = sitelist;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"userid\":\"")
+                .append(userid).append('\"');
+        sb.append(",\"headimg\":\"")
+                .append(headimg).append('\"');
+        sb.append(",\"username\":\"")
+                .append(username).append('\"');
+        sb.append(",\"phone\":\"")
+                .append(phone).append('\"');
+        sb.append(",\"pwd\":\"")
+                .append(pwd).append('\"');
+        sb.append(",\"registtime\":\"")
+                .append(registtime).append('\"');
+        sb.append(",\"lastlogintime\":\"")
+                .append(lastlogintime).append('\"');
+        sb.append(",\"devicetype\":\"")
+                .append(devicetype).append('\"');
+        sb.append(",\"appversion\":\"")
+                .append(appversion).append('\"');
+        sb.append(",\"devicemodel\":\"")
+                .append(devicemodel).append('\"');
+        sb.append(",\"deviceId\":\"")
+                .append(deviceId).append('\"');
+        sb.append(",\"token\":\"")
+                .append(token).append('\"');
+        sb.append(",\"status\":")
+                .append(status);
+        sb.append(",\"emil\":\"")
+                .append(emil).append('\"');
+        sb.append(",\"loginnumber\":")
+                .append(loginnumber);
+        sb.append(",\"loginstatus\":")
+                .append(loginstatus);
+        sb.append(",\"disksize\":")
+                .append(disksize);
+        sb.append(",\"sitecode\":\"")
+                .append(sitecode).append('\"');
+        sb.append(",\"sitename\":\"")
+                .append(sitename).append('\"');
+        sb.append(",\"departmentname\":\"")
+                .append(departmentname).append('\"');
+        sb.append(",\"jobname\":\"")
+                .append(jobname).append('\"');
+        sb.append(",\"sitelist\":")
+                .append(sitelist);
+        sb.append('}');
+        return sb.toString();
     }
 }

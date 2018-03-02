@@ -51,4 +51,19 @@ public class DepartmentBean {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"departmentid\":\"")
+                .append(departmentid).append('\"');
+        sb.append(",\"departmentname\":\"")
+                .append(departmentname).append('\"');
+        sb.append(",\"siteid\":\"")
+                .append(siteid).append('\"');
+        sb.append(",\"details\":\"")
+                .append(details).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
 }

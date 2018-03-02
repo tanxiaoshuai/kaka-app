@@ -11,10 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends TemplateDao<UserBean>{
 
     @Select("SELECT * FROM t_user WHERE phone = #{phone}")
-    @Results({
-            @Result(property = "userid",column = "userid"),
-            @Result(property = "sitelist" , column = "userid" , many = @Many(select = "com.sobey.dao.SiteDao.findByIdList"))
-    })
     public UserBean userByPhone(@Param("phone") String phone) throws Exception;
 
 }
