@@ -5,7 +5,7 @@ import com.sobey.config.ResultInfo;
 import com.sobey.dao.UserDao;
 import com.sobey.exception.FinalException;
 import com.sobey.model.UserBean;
-import com.sobey.util.RedisUtil;
+import com.sobey.redis.RedisUtil;
 import com.sobey.util.ResultUtil;
 import com.sobey.service.IUserService;
 import com.sobey.util.*;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements IUserService{
         userBean.setLastlogintime(user.getLastlogintime());
         userBean.setToken(user.getToken());
         userDao.updateById(userBean);
-        redisUtil.set(user.getUserid() , user , 20L);
+        redisUtil.set(user.getUserid() , user , AppConfig.REDIS_OUT_TIME);
         return ResultUtil.success(user);
     }
 
@@ -76,6 +76,8 @@ public class UserServiceImpl implements IUserService{
         userBean.setLastlogintime(DateUtil.longForTime(System.currentTimeMillis() , DateUtil.YEARTOSS));
         userBean.setLoginnumber(0L);
         userBean.setLoginstatus(0);
+        userBean.setStatus(0);
+        userBean.setSitecode(AppConfig.DEFAULT_SITECODE);
         userDao.save(userBean);
         return ResultUtil.success();
     }
