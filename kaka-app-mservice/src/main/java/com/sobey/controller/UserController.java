@@ -1,8 +1,6 @@
 package com.sobey.controller;
 import com.sobey.model.UserBean;
 import com.sobey.service.IUserService;
-import com.sobey.util.ParamValidateUtil;
-import com.sobey.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

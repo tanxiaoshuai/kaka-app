@@ -5,6 +5,7 @@ import com.sobey.config.ResultInfo;
 import com.sobey.dao.UserDao;
 import com.sobey.exception.FinalException;
 import com.sobey.model.UserBean;
+import com.sobey.redis.ResultUtil;
 import com.sobey.service.IUserService;
 import com.sobey.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements IUserService{
         userBean.setLastlogintime(user.getLastlogintime());
         userBean.setToken(user.getToken());
         userDao.updateById(userBean);
-        redisUtil.set(user.getUserid() , user , 1000*60*60L);
+        redisUtil.set(user.getUserid() , user , 20L);
         return ResultUtil.success(user);
     }
 
