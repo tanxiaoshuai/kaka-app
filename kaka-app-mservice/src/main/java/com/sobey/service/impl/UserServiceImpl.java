@@ -5,7 +5,7 @@ import com.sobey.config.ResultInfo;
 import com.sobey.dao.UserDao;
 import com.sobey.exception.FinalException;
 import com.sobey.model.UserBean;
-import com.sobey.redis.RedisUtil;
+import com.sobey.util.RedisUtil;
 import com.sobey.util.ResultUtil;
 import com.sobey.service.IUserService;
 import com.sobey.util.*;

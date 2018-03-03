@@ -6,7 +6,7 @@ import com.sobey.dao.JobDao;
 import com.sobey.dao.SiteDao;
 import com.sobey.model.UserBean;
 import com.sobey.dao.UserDao;
-import com.sobey.redis.RedisUtil;
+import com.sobey.util.RedisUtil;
 import com.sobey.util.TokenUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
