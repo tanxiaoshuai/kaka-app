@@ -3,7 +3,7 @@ package com.sobey.service.impl;
 import com.sobey.dao.SiteDao;
 import com.sobey.model.SiteBean;
 import com.sobey.service.ISiteService;
-import com.sobey.redis.ResultUtil;
+import com.sobey.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
