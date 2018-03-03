@@ -1,5 +1,4 @@
 package com.sobey.model;
-import com.sobey.config.AppConfig;
 import com.sobey.dao.annotation.Column;
 import com.sobey.dao.annotation.ID;
 import com.sobey.dao.annotation.TableName;
@@ -93,7 +92,7 @@ public class UserBean {
      * 用户状态（0 白名单 1黑名单）
      */
     @Column
-    private Integer status = 0;
+    private Integer status;
 
     /**
      * 头像
@@ -123,7 +122,7 @@ public class UserBean {
      * 站点code
      */
     @Column
-    private String sitecode = AppConfig.DEFAULT_SITECODE;
+    private String sitecode;
 
     /**
      * 站点名称

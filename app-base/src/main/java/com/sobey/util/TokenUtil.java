@@ -1,7 +1,9 @@
 package com.sobey.util;
+import com.sobey.config.AppConfig;
 import com.sobey.config.ResultInfo;
 import com.sobey.exception.FinalException;
 import com.sobey.model.UserBean;
+import com.sobey.redis.RedisUtil;
 import org.springframework.util.Base64Utils;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +30,11 @@ public class TokenUtil {
     }
 
     public static boolean checkToken(String token){
+        RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
         if(RegexUtil.isNull(token))
             throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = tokenParam(token);
-        RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
+        redisUtil.setExpire((String) list.get(0), AppConfig.REDIS_OUT_TIME);
         if(!redisUtil.exists((String) list.get(0)))
             throw new FinalException(ResultInfo.LOGINOUTTIME);
         UserBean user = (UserBean) redisUtil.get((String) list.get(0));
