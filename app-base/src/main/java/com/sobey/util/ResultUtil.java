@@ -1,4 +1,4 @@
-package com.sobey.redis;
+package com.sobey.util;
 import com.sobey.config.ResultInfo;
 
 import java.util.HashMap;

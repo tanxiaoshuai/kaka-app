@@ -1,9 +1,5 @@
 package com.sobey.exception;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sobey.util.BeanFactoryUtil;
-import com.sobey.util.RedisUtil;
-import com.sobey.util.RegexUtil;
 import com.sobey.util.TokenUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -12,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * 登陆拦截器

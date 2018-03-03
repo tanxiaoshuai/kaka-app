@@ -2,6 +2,7 @@ package com.sobey.util;
 import com.sobey.config.ResultInfo;
 import com.sobey.exception.FinalException;
 import com.sobey.model.UserBean;
+import com.sobey.redis.RedisUtil;
 import org.springframework.util.Base64Utils;
 import java.util.ArrayList;
 import java.util.List;

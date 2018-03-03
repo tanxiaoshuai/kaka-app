@@ -1,4 +1,4 @@
-package com.sobey.util;
+package com.sobey.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
