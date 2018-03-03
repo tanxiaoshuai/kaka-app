@@ -1,6 +1,6 @@
 package com.sobey.exception;
 import com.sobey.config.ResultInfo;
-import com.sobey.util.ResultUtil;
+import com.sobey.redis.ResultUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

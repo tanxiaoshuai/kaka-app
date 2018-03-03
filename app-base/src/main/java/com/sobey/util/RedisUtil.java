@@ -33,8 +33,7 @@ public class RedisUtil {
      * @return
      */
     public void set(final String key, Object value, Long expireTime) {
-        redisTemplate.opsForValue().set(key, value);
-        redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, value, expireTime, TimeUnit.SECONDS);
     }
 
     /**
