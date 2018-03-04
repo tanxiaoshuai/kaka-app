@@ -21,6 +21,8 @@ public class TokenUtil {
     }
 
     public static List tokenParam(String token){
+        if(RegexUtil.isNull(token))
+            throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = new ArrayList();
         token = new String(Base64Utils.decodeFromString(token));
         Object [] objects = token.split("&");
@@ -30,10 +32,8 @@ public class TokenUtil {
     }
 
     public static boolean checkToken(String token){
-        RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
-        if(RegexUtil.isNull(token))
-            throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = tokenParam(token);
+        RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
         redisUtil.setExpire((String) list.get(0), AppConfig.REDIS_OUT_TIME);
         if(!redisUtil.exists((String) list.get(0)))
             throw new FinalException(ResultInfo.LOGINOUTTIME);
@@ -46,5 +46,4 @@ public class TokenUtil {
         }
         return true;
     }
-
 }
