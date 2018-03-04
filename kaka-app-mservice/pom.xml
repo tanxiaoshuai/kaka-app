@@ -24,6 +24,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!--app基础包-->
 		<dependency>
 			<groupId>com.sobey</groupId>
