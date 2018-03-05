@@ -15,14 +15,12 @@ public class TokenUtil {
 
     public static String createToken(String userid  ,long logintime, String phoneid){
         StringBuffer str = new StringBuffer();
-        str.append(userid).append("&").append(logintime).append("&").append(phoneid);
+        str.append(AppConfig.TOKEN_PREFIX).append(userid).append("&").append(logintime).append("&").append(phoneid);
         System.out.println(str.toString());
         return Base64Utils.encodeToString(str.toString().getBytes());
     }
 
     public static List tokenParam(String token){
-        if(RegexUtil.isNull(token))
-            throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = new ArrayList();
         token = new String(Base64Utils.decodeFromString(token));
         Object [] objects = token.split("&");
@@ -46,4 +44,5 @@ public class TokenUtil {
         }
         return true;
     }
+
 }

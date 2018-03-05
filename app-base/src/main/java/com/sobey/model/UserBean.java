@@ -85,7 +85,6 @@ public class UserBean {
     /**
      * token
      */
-    @Column
     private String token;
 
     /**
