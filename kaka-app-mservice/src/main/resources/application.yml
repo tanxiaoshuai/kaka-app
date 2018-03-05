@@ -1,6 +1,6 @@
 server:
   port: 8088
-  context-path: /mhq-datashow
+  context-path: /kaka-app-mservice
   tomcat-uri-encoding: UTF-8
 
 spring:

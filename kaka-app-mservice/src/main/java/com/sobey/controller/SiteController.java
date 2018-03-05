@@ -1,5 +1,6 @@
 package com.sobey.controller;
 
+import com.sobey.log.RequestLimit;
 import com.sobey.service.ISiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class SiteController {
     @Autowired
     private ISiteService siteService;
 
+    @RequestLimit(count = 10 , time = 20)
     @GetMapping("/site/findByIdList/{userid}")
     public Map<String , Object> findByIdList(@PathVariable String userid) throws Exception{
         return siteService.findByIdList(userid);
@@ -21,6 +23,5 @@ public class SiteController {
     public Map<String , Object> findByList() throws Exception{
         return siteService.findByList();
     }
-
 
 }
