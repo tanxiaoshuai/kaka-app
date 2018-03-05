@@ -23,4 +23,10 @@ public class SiteServiceImpl implements ISiteService{
         List<SiteBean> list = siteService.findByIdList(userid);
         return ResultUtil.success(list);
     }
+
+    @Override
+    public Map<String, Object> findByList() throws Exception {
+        List<SiteBean> list = siteService.findByList(SiteBean.class);
+        return ResultUtil.success(list);
+    }
 }

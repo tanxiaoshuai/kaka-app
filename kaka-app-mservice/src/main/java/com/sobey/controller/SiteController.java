@@ -17,5 +17,10 @@ public class SiteController {
         return siteService.findByIdList(userid);
     }
 
+    @GetMapping("/site/findByList")
+    public Map<String , Object> findByList() throws Exception{
+        return siteService.findByList();
+    }
+
 
 }
