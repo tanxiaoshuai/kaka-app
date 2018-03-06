@@ -55,7 +55,7 @@ public class UserServiceImpl implements IUserService{
         userBean.setLoginnumber(user.getLoginnumber());
         userBean.setLastlogintime(user.getLastlogintime());
         userDao.updateById(userBean);
-        redisUtil.set(AppConfig.TOKEN_PREFIX + user.getUserid() , user , AppConfig.REDIS_OUT_TIME);
+        redisUtil.set(TokenUtil.tokenKey(user.getUserid()) , user , AppConfig.REDIS_OUT_TIME);
         return ResultUtil.success(user);
     }
 
