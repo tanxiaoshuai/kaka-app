@@ -1,0 +1,9 @@
+server:
+  port: 8018
+spring:
+  application:
+    name: kaka-app-ribbon
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/
