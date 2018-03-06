@@ -21,6 +21,8 @@ public class TokenUtil {
     }
 
     public static List tokenParam(String token){
+        if(RegexUtil.isNull(token))
+            throw new FinalException(ResultInfo.NOAUTHORIZE);
         List list = new ArrayList();
         token = new String(Base64Utils.decodeFromString(token));
         Object [] objects = token.split("&");
@@ -43,6 +45,14 @@ public class TokenUtil {
                 throw new FinalException(ResultInfo.TOKENCHECKERROR);
         }
         return true;
+    }
+
+    public static String tokenKey(String userid){
+        return new StringBuffer().append(AppConfig.TOKEN_PREFIX).append(userid).toString();
+    }
+
+    public static String reqLimitKey(String ip , String packageStr){
+        return new StringBuffer().append(AppConfig.REQ_IP_PREFIX).append(ip).append(packageStr).toString();
     }
 
 }
