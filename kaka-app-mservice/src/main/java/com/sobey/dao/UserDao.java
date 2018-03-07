@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserDao extends TemplateDao<UserBean>{
 
-    @Select("SELECT * FROM t_user WHERE phone = #{phone}")
-    public UserBean userByPhone(@Param("phone") String phone) throws Exception;
+    @Select("SELECT * FROM t_user WHERE phone = #{loginname} or nickname = #{loginname}")
+    public UserBean userByPhone(@Param("loginname") String loginname) throws Exception;
 
 }

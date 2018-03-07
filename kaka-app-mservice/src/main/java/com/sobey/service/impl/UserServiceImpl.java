@@ -1,5 +1,6 @@
 package com.sobey.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sobey.config.AppConfig;
 import com.sobey.config.ResultInfo;
 import com.sobey.dao.UserDao;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,11 +30,11 @@ public class UserServiceImpl implements IUserService{
     @Override
     @Transactional
     public Map<String, Object> login(UserBean userBean) throws Exception {
-        ParamValidateUtil.notNull(userBean.getPhone() , "电话号码不能为空");
+        ParamValidateUtil.notNull(userBean.getLoginname() , "用户名不能为空");
         ParamValidateUtil.notNull(userBean.getPwd() , "密码不能为空");
-        UserBean user = userDao.userByPhone(userBean.getPhone());
+        UserBean user = userDao.userByPhone(userBean.getLoginname());
         if(user == null)
-            throw new FinalException(ResultInfo.USERISNULL);
+            throw new FinalException(ResultInfo.USER_ISNULL);
         if(!userBean.getPwd().equals(user.getPwd()))
             throw new FinalException(ResultInfo.PASSWORDERROR);
         long s = System.currentTimeMillis();
@@ -55,20 +57,23 @@ public class UserServiceImpl implements IUserService{
         userBean.setLoginnumber(user.getLoginnumber());
         userBean.setLastlogintime(user.getLastlogintime());
         userDao.updateById(userBean);
-        redisUtil.set(TokenUtil.tokenKey(user.getUserid()) , user , AppConfig.REDIS_OUT_TIME);
-        return ResultUtil.success(user);
+        redisUtil.set(TokenUtil.tokenKey(user.getUserid()) , user , AppConfig.REDIS_TOKEN_OUT_TIME);
+        return ResultUtil.success(JSONObject.toJSON(user));
     }
 
     @Override
     public Map<String, Object> registe(UserBean userBean , String code) throws Exception {
-        ParamValidateUtil.notNull(userBean.getPhone() , "电话号码不能为空");
-        ParamValidateUtil.min(6 , userBean.getPhone() , "手机号必须是11位");
-        ParamValidateUtil.phone(userBean.getPhone() , "手机号格式错误");
-        ParamValidateUtil.notNull(userBean.getPwd() , "密码不能为空");
-        ParamValidateUtil.min(6,userBean.getPwd() , "密码至少6位数");
+        ParamValidateUtil.phone(userBean.getPhone());
         UserBean user = userDao.findBySQLRequireToBean("phone = '"+userBean.getPhone()+"'" , UserBean.class);
         if(user != null)
-            throw new FinalException(ResultInfo.USERISNOTNULL);
+            throw new FinalException(ResultInfo.PHONE_ISNOTNULL);
+        ParamValidateUtil.password(userBean.getPwd());
+        ParamValidateUtil.nickname(userBean.getNickname());
+        user = userDao.findBySQLRequireToBean("nickname = '" + userBean.getNickname() + "'" , UserBean.class);
+        if(user != null)
+            throw new FinalException(ResultInfo.NICKNAME_ISNOTNULL);
+        ParamValidateUtil.username(userBean.getUsername());
+
         userBean.setUserid(UUID.randomUUID().toString().replace("-" , ""));
         userBean.setPwd(MD5Util.getPwd(AppConfig.PWDKEY+userBean.getPwd()));
         userBean.setRegisttime(DateUtil.longForTime(System.currentTimeMillis() , DateUtil.YEARTOSS));
@@ -78,6 +83,28 @@ public class UserServiceImpl implements IUserService{
         userBean.setStatus(0);
         userBean.setSitecode(AppConfig.DEFAULT_SITECODE);
         userDao.save(userBean);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Map<String, Object> loginOut(HttpServletRequest request) throws Exception {
+        String [] param = TokenUtil.tokenToIdAndKey(request.getHeader("token"));
+        UserBean userBean = new UserBean();
+        userBean.setUserid(param[0]);
+        userBean.setLoginstatus(0);
+        userDao.updateById(userBean);
+        redisUtil.remove(param[1]);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Map<String, Object> updatePaw(Map<String, String> map) throws Exception {
+        String phone = map.get("phone");
+        String newpwd = map.get("newpwd");
+        String code = map.get("code");
+        ParamValidateUtil.phone(phone);
+        ParamValidateUtil.password(newpwd);
+        userDao.updateBySQLRequire("pwd = '" + newpwd +"' where phone = '" + phone + "'" , UserBean.class );
         return ResultUtil.success();
     }
 }
