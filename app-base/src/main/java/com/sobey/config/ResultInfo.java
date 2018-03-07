@@ -11,10 +11,12 @@ public enum  ResultInfo {
     NOAUTHORIZE("0003" , "未授权"),
     LOGINOUTTIME("0004" , "登录超时"),
     ANOTHERdDEVICELOGIN("0005" , "用户在其他设备上登录"),
-    USERISNULL("0006" , "用户不存在"),
-    USERISNOTNULL("0007" , "用户存在"),
+    USER_ISNULL("0006" , "用户不存在"),
+    PHONE_ISNOTNULL("0007" , "手机号已注册"),
     PASSWORDERROR("0008" , "密码错误"),
-    TOKENCHECKERROR("0009" , "认证失败")
+    TOKENCHECKERROR("0009" , "认证失败"),
+    NICKNAME_ISNOTNULL("0010" , "用户名已存在"),
+
 
 
     ;

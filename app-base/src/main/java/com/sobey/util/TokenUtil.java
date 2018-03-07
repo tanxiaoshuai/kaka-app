@@ -15,7 +15,7 @@ public class TokenUtil {
 
     public static String createToken(String userid  ,long logintime, String phoneid){
         StringBuffer str = new StringBuffer();
-        str.append(AppConfig.TOKEN_PREFIX).append(userid).append("&").append(logintime).append("&").append(phoneid);
+        str.append(tokenKey(userid)).append("&").append(logintime).append("&").append(phoneid);
         System.out.println(str.toString());
         return Base64Utils.encodeToString(str.toString().getBytes());
     }
@@ -34,7 +34,7 @@ public class TokenUtil {
     public static boolean checkToken(String token){
         List list = tokenParam(token);
         RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
-        redisUtil.setExpire((String) list.get(0), AppConfig.REDIS_OUT_TIME);
+        redisUtil.setExpire((String) list.get(0), AppConfig.REDIS_TOKEN_OUT_TIME);
         if(!redisUtil.exists((String) list.get(0)))
             throw new FinalException(ResultInfo.LOGINOUTTIME);
         UserBean user = (UserBean) redisUtil.get((String) list.get(0));
@@ -53,6 +53,17 @@ public class TokenUtil {
 
     public static String reqLimitKey(String ip , String packageStr){
         return new StringBuffer().append(AppConfig.REQ_IP_PREFIX).append(ip).append(packageStr).toString();
+    }
+
+    public static String phoneMessageKey(String phone){
+        return new StringBuffer().append(AppConfig.PHONE_MESSAGE_PREFIX).append(phone).toString();
+    }
+
+    public static String [] tokenToIdAndKey(String token){
+        List list = tokenParam(token);
+        String key = (String)list.get(0);
+        String [] s = key.split("_");
+        return new String[]{s[s.length - 1] , key};
     }
 
 }

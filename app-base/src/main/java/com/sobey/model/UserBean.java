@@ -35,6 +35,12 @@ public class UserBean {
     private String username;
 
     /**
+     * 用户名
+     */
+    @Column
+    private String nickname;
+
+    /**
      * 手机号码
      */
     @Column
@@ -139,6 +145,11 @@ public class UserBean {
     private String jobname;
 
     private List<SiteBean> sitelist;
+
+    /**
+     * 登录账户
+     */
+    private String loginname;
 
     public String getUserid() {
         return userid;
@@ -316,6 +327,22 @@ public class UserBean {
         this.sitelist = sitelist;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getLoginname() {
+        return loginname;
+    }
+
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -325,6 +352,8 @@ public class UserBean {
                 .append(headimg).append('\"');
         sb.append(",\"username\":\"")
                 .append(username).append('\"');
+        sb.append(",\"nickname\":\"")
+                .append(nickname).append('\"');
         sb.append(",\"phone\":\"")
                 .append(phone).append('\"');
         sb.append(",\"pwd\":\"")
@@ -363,6 +392,8 @@ public class UserBean {
                 .append(jobname).append('\"');
         sb.append(",\"sitelist\":")
                 .append(sitelist);
+        sb.append(",\"loginname\":\"")
+                .append(loginname).append('\"');
         sb.append('}');
         return sb.toString();
     }

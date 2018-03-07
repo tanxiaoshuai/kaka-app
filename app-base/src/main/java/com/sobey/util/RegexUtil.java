@@ -86,7 +86,7 @@ public class RegexUtil {
      * Created by TS on 2018/2/23.
      */
     public final static boolean isPwd(String str) {
-        return match(str, "^[a-zA-Z]\\w{6,12}$");
+        return match(str, "^[a-zA-Z]\\w{5,15}$");
     }
 
     /**
