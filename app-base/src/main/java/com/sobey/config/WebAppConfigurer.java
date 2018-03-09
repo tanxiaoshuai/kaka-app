@@ -31,7 +31,8 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
                 .excludePathPatterns("/rest/user/login")
                 .excludePathPatterns("/rest/user/registe")
                 .excludePathPatterns("/rest/site/findByList")
-                .excludePathPatterns("/rest/user/updatepwd");
+                .excludePathPatterns("/rest/user/updatepwd")
+                .excludePathPatterns("/rest/sms/getMessageCode");
     }
 
     /**

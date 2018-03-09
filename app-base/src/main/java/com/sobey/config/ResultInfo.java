@@ -16,8 +16,7 @@ public enum  ResultInfo {
     PASSWORDERROR("0008" , "密码错误"),
     TOKENCHECKERROR("0009" , "认证失败"),
     NICKNAME_ISNOTNULL("0010" , "用户名已存在"),
-
-
+    AL_SMS_MESSAGE_ERROR("0011" , "短信验证码获取失败"),
 
     ;
 

@@ -24,6 +24,10 @@ public class SiteBean {
     private String details;
     @Column
     private Integer status;
+    @Column
+    private String sitelog;
+    @Column
+    private String siteqrcode;
 
     public String getSiteid() {
         return siteid;
@@ -73,6 +77,22 @@ public class SiteBean {
         this.status = status;
     }
 
+    public String getSitelog() {
+        return sitelog;
+    }
+
+    public void setSitelog(String sitelog) {
+        this.sitelog = sitelog;
+    }
+
+    public String getSiteqrcode() {
+        return siteqrcode;
+    }
+
+    public void setSiteqrcode(String siteqrcode) {
+        this.siteqrcode = siteqrcode;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -88,6 +108,10 @@ public class SiteBean {
                 .append(details).append('\"');
         sb.append(",\"status\":")
                 .append(status);
+        sb.append(",\"sitelog\":\"")
+                .append(sitelog).append('\"');
+        sb.append(",\"siteqrcode\":\"")
+                .append(siteqrcode).append('\"');
         sb.append('}');
         return sb.toString();
     }

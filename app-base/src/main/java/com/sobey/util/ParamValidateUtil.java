@@ -14,6 +14,12 @@ public class ParamValidateUtil {
             throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
     }
 
+    public static void notNull(Integer param , String msg){
+
+        if(RegexUtil.isNull(param))
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg(msg));
+    }
+
     public static void length(int min , long max , String param , String msg){
         long len = param.length();
         if (len < min || len > max)

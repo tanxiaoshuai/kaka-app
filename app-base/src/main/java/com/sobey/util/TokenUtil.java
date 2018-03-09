@@ -15,7 +15,7 @@ public class TokenUtil {
 
     public static String createToken(String userid  ,long logintime, String phoneid){
         StringBuffer str = new StringBuffer();
-        str.append(tokenKey(userid)).append("&").append(logintime).append("&").append(phoneid);
+        str.append(KeyUtil.tokenKey(userid)).append("&").append(logintime).append("&").append(phoneid);
         System.out.println(str.toString());
         return Base64Utils.encodeToString(str.toString().getBytes());
     }
@@ -47,23 +47,13 @@ public class TokenUtil {
         return true;
     }
 
-    public static String tokenKey(String userid){
-        return new StringBuffer().append(AppConfig.TOKEN_PREFIX).append(userid).toString();
-    }
-
-    public static String reqLimitKey(String ip , String packageStr){
-        return new StringBuffer().append(AppConfig.REQ_IP_PREFIX).append(ip).append(packageStr).toString();
-    }
-
-    public static String phoneMessageKey(String phone){
-        return new StringBuffer().append(AppConfig.PHONE_MESSAGE_PREFIX).append(phone).toString();
-    }
-
     public static String [] tokenToIdAndKey(String token){
         List list = tokenParam(token);
         String key = (String)list.get(0);
         String [] s = key.split("_");
         return new String[]{s[s.length - 1] , key};
     }
+
+
 
 }
