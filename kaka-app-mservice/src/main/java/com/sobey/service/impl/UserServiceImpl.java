@@ -1,6 +1,6 @@
 package com.sobey.service.impl;
-
 import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.sobey.config.AppConfig;
 import com.sobey.config.ResultInfo;
 import com.sobey.dao.UserDao;
@@ -10,16 +10,18 @@ import com.sobey.redis.RedisUtil;
 import com.sobey.util.ResultUtil;
 import com.sobey.service.IUserService;
 import com.sobey.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements IUserService{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserDao userDao;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements IUserService{
         UserBean user = userDao.userByPhone(userBean.getLoginname());
         if(user == null)
             throw new FinalException(ResultInfo.USER_ISNULL);
-        if(!userBean.getPwd().equals(user.getPwd()))
+        if(!MD5Util.PWD(userBean.getPwd()).equals(user.getPwd()))
             throw new FinalException(ResultInfo.PASSWORDERROR);
         long s = System.currentTimeMillis();
         String token = TokenUtil.createToken(user.getUserid() , s , userBean.getDeviceId());
@@ -57,13 +59,21 @@ public class UserServiceImpl implements IUserService{
         userBean.setLoginnumber(user.getLoginnumber());
         userBean.setLastlogintime(user.getLastlogintime());
         userDao.updateById(userBean);
-        redisUtil.set(TokenUtil.tokenKey(user.getUserid()) , user , AppConfig.REDIS_TOKEN_OUT_TIME);
-        return ResultUtil.success(JSONObject.toJSON(user));
+        redisUtil.set(KeyUtil.tokenKey(user.getUserid()) , user , AppConfig.REDIS_TOKEN_OUT_TIME);
+        return ResultUtil.success(user);
     }
 
     @Override
+    @Transactional
     public Map<String, Object> registe(UserBean userBean , String code) throws Exception {
         ParamValidateUtil.phone(userBean.getPhone());
+        ParamValidateUtil.notNull(code , "验证码不能为空");
+        String codeKey = KeyUtil.phoneMessageRegisteKey(userBean.getPhone());
+        String rcode = (String) redisUtil.get(codeKey);
+        if(rcode == null)
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码失效"));
+        if (!rcode.equals(code))
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码错误"));
         UserBean user = userDao.findBySQLRequireToBean("phone = '"+userBean.getPhone()+"'" , UserBean.class);
         if(user != null)
             throw new FinalException(ResultInfo.PHONE_ISNOTNULL);
@@ -74,8 +84,8 @@ public class UserServiceImpl implements IUserService{
             throw new FinalException(ResultInfo.NICKNAME_ISNOTNULL);
         ParamValidateUtil.username(userBean.getUsername());
 
-        userBean.setUserid(UUID.randomUUID().toString().replace("-" , ""));
-        userBean.setPwd(MD5Util.getPwd(AppConfig.PWDKEY+userBean.getPwd()));
+        userBean.setUserid(KeyUtil.uuid());
+        userBean.setPwd(MD5Util.PWD(userBean.getPwd()));
         userBean.setRegisttime(DateUtil.longForTime(System.currentTimeMillis() , DateUtil.YEARTOSS));
         userBean.setLastlogintime(DateUtil.longForTime(System.currentTimeMillis() , DateUtil.YEARTOSS));
         userBean.setLoginnumber(0L);
@@ -83,6 +93,7 @@ public class UserServiceImpl implements IUserService{
         userBean.setStatus(0);
         userBean.setSitecode(AppConfig.DEFAULT_SITECODE);
         userDao.save(userBean);
+        redisUtil.remove(codeKey);
         return ResultUtil.success();
     }
 
@@ -98,13 +109,51 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public Map<String, Object> updatePaw(Map<String, String> map) throws Exception {
+    public Map<String, Object> updatePaw(Map<String, String> map , String code) throws Exception {
         String phone = map.get("phone");
         String newpwd = map.get("newpwd");
-        String code = map.get("code");
         ParamValidateUtil.phone(phone);
         ParamValidateUtil.password(newpwd);
-        userDao.updateBySQLRequire("pwd = '" + newpwd +"' where phone = '" + phone + "'" , UserBean.class );
+        ParamValidateUtil.notNull(code , "验证码不能为空");
+        String codeKey = KeyUtil.phoneMessageUpdatePwdKey(phone);
+        String rcode = (String) redisUtil.get(codeKey);
+        if(rcode == null)
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码失效"));
+        if (!rcode.equals(code))
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码错误"));
+        userDao.updateBySQLRequire("pwd = '" + MD5Util.PWD(newpwd) +"' where phone = '" + phone + "'" , UserBean.class );
+        redisUtil.remove(codeKey);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Map<String, Object> sendSmsMessage(String phone , Integer type) throws Exception {
+        ParamValidateUtil.phone(phone);
+        ParamValidateUtil.notNull(type , "短信验证码不能为空");
+        StringBuffer code = new StringBuffer();
+        for(int i = 0 ; i < AppConfig.AL_SMS_MESSAGE_CODE_SIZE ; i++){
+            code.append((int) (Math.random() * 10));
+        }
+        //type 1 注册 2修改
+        String templateCode = null;
+        String smsKey = null;
+        if(type == 1) {
+            templateCode = AppConfig.AL_SMS_REGISTE_TEMPLATECODE;
+            smsKey = KeyUtil.phoneMessageRegisteKey(phone);
+        }
+        else if(type == 2) {
+            templateCode = AppConfig.AL_SMS_UPDATE_PWD_TEMPLATECODE;
+            smsKey = KeyUtil.phoneMessageUpdatePwdKey(phone);
+        }
+        else
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("短信验证码类型错误"));
+        SendSmsResponse sendSmsResponse = SmsSendMessage.sendSms(phone ,
+                "{\"code\": \""+code.toString()+"\"}", templateCode);
+        LOGGER.info("获取阿里验证码返回参数： " + JSONObject.toJSONString(sendSmsResponse));
+        String respCode = sendSmsResponse.getCode().toLowerCase();
+        if(!respCode.equals("ok"))
+            throw new FinalException(ResultInfo.AL_SMS_MESSAGE_ERROR);
+        redisUtil.set(smsKey , code , AppConfig.AL_SMS_OUTTIME);
         return ResultUtil.success();
     }
 }

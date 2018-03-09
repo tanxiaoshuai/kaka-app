@@ -24,4 +24,9 @@ public class SiteController {
         return siteService.findByList();
     }
 
+    @GetMapping("/site/findBySiteNameToList")
+    public Map<String , Object> findBySiteNameToList(String sitename) throws Exception{
+        return siteService.findBySiteNameToList(sitename);
+    }
+
 }

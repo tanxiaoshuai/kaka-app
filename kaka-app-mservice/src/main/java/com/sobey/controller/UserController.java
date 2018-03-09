@@ -33,8 +33,13 @@ public class UserController {
     }
 
     @PostMapping("/user/updatepwd")
-    public Object updatepwd (@RequestBody Map<String , String> map) throws Exception{
-        return userService.updatePaw(map);
+    public Object updatepwd (@RequestBody Map<String , String> map , String code) throws Exception{
+        return userService.updatePaw(map , code);
+    }
+
+    @GetMapping("/sms/getMessageCode")
+    public Object sendSmsMessage(String phone , Integer type) throws Exception{
+        return userService.sendSmsMessage(phone , type);
     }
 
 
