@@ -131,6 +131,20 @@ public class TemplateSQL {
     }
 
     /**
+     * 查询对象集合
+     * @param c
+     * @param c
+     * @param <T>
+     * @return
+     */
+    public static <T> String findByList(Class<T> c){
+        StringBuffer sb = new StringBuffer();
+        sb.append("select * from ");
+        sb.append(tableName(c));
+        return sb.toString();
+    }
+
+    /**
      * 根据对象修改 参数
      * @param t
      * @param <T>

@@ -38,6 +38,9 @@ public interface TemplateDao<T> {
     @SelectProvider(type = TemplateSQL.class , method = "bySQL")
     List<T> findBySQLToList(String sql) throws Exception;
 
+    @SelectProvider(type = TemplateSQL.class , method = "findByList")
+    List<T> findByList(Class<T> c) throws Exception;
+
     @UpdateProvider(type = TemplateSQL.class , method = "updateById")
     void updateById(T t) throws Exception;
 

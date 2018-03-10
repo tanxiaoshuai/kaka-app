@@ -1,4 +1,5 @@
 package com.sobey.redis;
+import com.sobey.config.AppConfig;
 import com.sobey.util.BeanFactoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,17 @@ public class RedisExpiredListener implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] bytes) {
-        byte[] body = message.getBody();// 建议使用: valueSerializer
+        byte[] body = message.getBody();
         byte[] channel = message.getChannel();
+        String key = new String(message.getBody());
         LOGGER.info("redis onMessage >> " + String.format("channel: %s, body: %s, bytes: %s"
-                ,new String(channel), new String(body), new String(bytes)));
+                ,new String(channel), key, new String(bytes)));
+        if(!key.contains(AppConfig.TOKEN_PREFIX ))
+            return;
+        String s[] = key.split("_");
         try {
             BeanFactoryUtil.getBeanByClass(IRedisListenerService.class).
-                    redisOnMessage(new String(message.getBody()));
+                    redisOnMessage(s[s.length-1]);
         } catch (Exception e) {
             e.printStackTrace();
         }

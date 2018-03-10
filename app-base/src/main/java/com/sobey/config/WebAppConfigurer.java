@@ -29,7 +29,10 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new URLInterceptor()).addPathPatterns("/**" , "/*.html")
                 .excludePathPatterns("/rest/user/login")
-                .excludePathPatterns("/rest/user/registe");
+                .excludePathPatterns("/rest/user/registe")
+                .excludePathPatterns("/rest/site/findByList")
+                .excludePathPatterns("/rest/user/updatepwd")
+                .excludePathPatterns("/rest/sms/getMessageCode");
     }
 
     /**

@@ -74,6 +74,7 @@ CREATE TABLE `t_user` (
   `userid` varchar(32) NOT NULL,
   `headimg` text,
   `username` varchar(25) DEFAULT NULL,
+  `nickname` varchar(25) DEFAULT NULL,
   `phone` varchar(25) DEFAULT NULL,
   `pwd` varchar(32) DEFAULT NULL,
   `registtime` varchar(25) DEFAULT NULL,
@@ -82,18 +83,18 @@ CREATE TABLE `t_user` (
   `appversion` varchar(32) DEFAULT NULL,
   `devicemodel` varchar(32) DEFAULT NULL,
   `deviceId` varchar(32) DEFAULT NULL,
-  `token` varchar(300) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `emil` varchar(64) DEFAULT NULL,
   `loginnumber` bigint(20) DEFAULT NULL,
   `loginstatus` int(11) DEFAULT NULL,
   `disksize` bigint(20) DEFAULT NULL,
+  `sitecode` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_user` */
 
-insert  into `t_user`(`userid`,`headimg`,`username`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`token`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','13088094976','616823670','2018-02-28 15:40:43','2018-03-01 17:50:15','ios','1.0.0','Apple 7','uudb20817jliyuyt','MmEyYzk0YTlmMzBiNGNlNjk4ZmU4ODY0NzdhZjk0ZTcmMTUxOTg5NzgxNTk4NyZ1dWRiMjA4MTdqbGl5dXl0',1,'616823670@qq.com',50,1,10240),('b8ccbb7ccf4f486ab209ef8723195fef',NULL,NULL,'18380483924','6c5410b4585649bbe5668987ee6613f5','2018-03-01 18:19:58','2018-03-01 18:19:58','ios','1.0.0','Apple 6s','this phoneid',NULL,0,NULL,1,1,NULL);
+insert  into `t_user`(`userid`,`headimg`,`username`,`nickname`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`,`sitecode`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','tanshuai','13088094976','ts616823670','2018-02-28 15:40:43','2018-03-07 18:30:57','ios','1.0.0','Apple 6','this phoneid',0,'616823670@qq.com',183,0,10240,'SCTV'),('87c14e3a050f410b8401d33e6d0e3e9f',NULL,'谭小帅','tanshuai1','18380483924','e033535ea535204ffa3739f223023850','2018-03-07 17:31:35','2018-03-07 17:31:35','ios','1.0.0','Apple 6','this phoneid',0,NULL,0,0,NULL,'SB');
 
 /*Table structure for table `t_user_site` */
 

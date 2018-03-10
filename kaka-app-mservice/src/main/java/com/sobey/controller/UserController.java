@@ -4,6 +4,9 @@ import com.sobey.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 /**
  * Created by TS on 2018/2/23.
  */
@@ -23,5 +26,21 @@ public class UserController {
     public Object registe(@RequestBody UserBean userBean , String code) throws Exception{
         return userService.registe(userBean , code);
     }
+
+    @GetMapping("/user/loginOut")
+    public Object loginOut(HttpServletRequest request)throws Exception{
+        return userService.loginOut(request);
+    }
+
+    @PostMapping("/user/updatepwd")
+    public Object updatepwd (@RequestBody Map<String , String> map , String code) throws Exception{
+        return userService.updatePaw(map , code);
+    }
+
+    @GetMapping("/sms/getMessageCode")
+    public Object sendSmsMessage(String phone , Integer type) throws Exception{
+        return userService.sendSmsMessage(phone , type);
+    }
+
 
 }

@@ -3,6 +3,8 @@ package com.sobey.util;
 
 
 
+import com.sobey.config.AppConfig;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -65,5 +67,9 @@ public class MD5Util {
         }
         return "";
     }
+
+    public static String PWD(String pwd){
+    	return getPwd(new StringBuffer().append(AppConfig.PWDKEY).append(pwd).toString());
+	}
 
 }

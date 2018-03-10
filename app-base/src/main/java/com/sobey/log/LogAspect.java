@@ -1,4 +1,9 @@
 package com.sobey.log;
+import com.alibaba.fastjson.JSONObject;
+import com.sobey.config.AppConfig;
+import com.sobey.exception.FinalException;
+import com.sobey.redis.RedisUtil;
+import com.sobey.util.BeanFactoryUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,8 +24,24 @@ public class LogAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut("execution(* com.sobey.controller.*.*(..))")
-
     public void webLog() {}
+
+    @Before("@annotation(limit)")
+    public void requestLimit(JoinPoint joinPoint , RequestLimit limit){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        StringBuffer key = new StringBuffer().append(AppConfig.REQ_IP_PREFIX).append(request.getLocalAddr());
+        RedisUtil redisUtil = BeanFactoryUtil.getBeanByClass(RedisUtil.class);
+        Integer count = 0;
+        if(redisUtil.exists(key.toString()))
+            count = (Integer) redisUtil.get(key.toString());
+        else
+            redisUtil.set(key.toString() , count , limit.time());
+        if(count >= limit.count())
+            throw new FinalException("0010" , "超出访问次数");
+        else
+            redisUtil.set(key.toString() , count + 1 , redisUtil.getExpire(key.toString()));
+    }
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws IOException {
@@ -28,8 +49,8 @@ public class LogAspect {
         HttpServletRequest request = attributes.getRequest();
         logger.info("url ={}",request.getRequestURL().toString().trim());
         logger.info("method={}",request.getMethod());
-        logger.info("ip={}",request.getRemoteAddr());
-        logger.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName()+'.'+ joinPoint.getSignature().getName());//获取类名及类方法
+        logger.info("ip={}",request.getLocalAddr());
+        logger.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName()+'.'+ joinPoint.getSignature().getName());
         logger.info("args={}",joinPoint.getArgs());
     }
 

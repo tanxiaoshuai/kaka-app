@@ -1,6 +1,6 @@
 server:
   port: 8088
-  context-path: /mhq-datashow
+  context-path: /kaka-app-mservice
   tomcat-uri-encoding: UTF-8
 
 spring:
@@ -40,7 +40,8 @@ management:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8000/eureka/
+      defaultZone: http://localhost:8001/eureka/
+
 
 
 
