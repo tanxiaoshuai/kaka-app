@@ -2,22 +2,12 @@ package com.sobey.util;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
-import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
-import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
-import com.aliyuncs.dysmsapi.transform.v20170525.SendSmsResponseUnmarshaller;
 import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.http.FormatType;
-import com.aliyuncs.http.HttpResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.sobey.config.AppConfig;
-
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 
 public class SmsSendMessage {
 
@@ -41,20 +31,5 @@ public class SmsSendMessage {
         //hint 此处可能会抛出异常，注意catch
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
         return sendSmsResponse;
-    }
-
-    public static void main(String[] args) throws ClientException, InterruptedException {
-        //发短信
-//        SendSmsResponse response = sendSms("13088094976","{\"name\":\"Tom\", \"code\":\"123\"}");
-//        System.out.println("短信接口返回的数据----------------");
-//        System.out.println("Code=" + response.getCode());
-//        System.out.println("Message=" + response.getMessage());
-//        System.out.println("RequestId=" + response.getRequestId());
-//        System.out.println("BizId=" + response.getBizId());
-        StringBuffer buffer = new StringBuffer();
-        for(int i = 0 ; i < 6 ; i++){
-            buffer.append((int) (Math.random() * 10));
-        }
-        System.out.println(buffer.toString());
     }
 }

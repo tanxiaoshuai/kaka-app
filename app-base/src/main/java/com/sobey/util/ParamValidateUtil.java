@@ -75,7 +75,7 @@ public class ParamValidateUtil {
     }
 
     public static boolean phoneOrNickname(String em){
-        return RegexUtil.isMobile(em);
+        return RegexUtil.match(em , RegexConfig.NICKNAME_REG);
     }
 
     public static void nickname(String em){
