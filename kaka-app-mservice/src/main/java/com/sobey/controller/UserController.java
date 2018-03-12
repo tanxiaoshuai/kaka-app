@@ -22,7 +22,7 @@ public class UserController {
         return userService.login(userBean);
     }
 
-    @PostMapping("/user/registe")
+    @PostMapping(value = "/user/registe")
     public Object registe(@RequestBody UserBean userBean , String code) throws Exception{
         return userService.registe(userBean , code);
     }
@@ -38,9 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/sms/getMessageCode")
-    public Object sendSmsMessage(String phone , Integer type) throws Exception{
+    public Object sendSmsMessage(String phone , String type) throws Exception{
         return userService.sendSmsMessage(phone , type);
     }
-
 
 }

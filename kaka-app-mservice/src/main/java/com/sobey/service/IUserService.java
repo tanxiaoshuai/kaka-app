@@ -15,6 +15,6 @@ public interface IUserService {
 
     public Map<String , Object> updatePaw(Map<String , String> map, String code) throws Exception;
 
-    public Map<String , Object> sendSmsMessage(String phone , Integer type) throws Exception;
+    public Map<String , Object> sendSmsMessage(String phone , String type) throws Exception;
 
 }

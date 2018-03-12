@@ -35,6 +35,7 @@ public class UserServiceImpl implements IUserService{
     public Map<String, Object> login(UserBean userBean) throws Exception {
         ParamValidateUtil.notNull(userBean.getLoginname() , "用户名不能为空");
         ParamValidateUtil.notNull(userBean.getPwd() , "密码不能为空");
+        ParamValidateUtil.notNull(userBean.getDeviceId() , "手机唯一标识不能为空");
         UserBean user = null;
         if (ParamValidateUtil.phoneOrNickname(userBean.getLoginname()))
             user = userDao.userByName(userBean.getLoginname());
@@ -132,7 +133,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public Map<String, Object> sendSmsMessage(String phone , Integer type) throws Exception {
+    public Map<String, Object> sendSmsMessage(String phone , String type) throws Exception {
         ParamValidateUtil.phone(phone);
         ParamValidateUtil.notNull(type , "短信验证码不能为空");
         StringBuffer code = new StringBuffer();
@@ -145,7 +146,7 @@ public class UserServiceImpl implements IUserService{
         int count = 0;
         Set<Integer> keyCode = AppConfig.AL_SMS_TEMPLATECODE.keySet();
         for(Integer mtype : keyCode){
-            if(mtype == type){
+            if(mtype.equals(type)){
                 templateCode = AppConfig.AL_SMS_TEMPLATECODE.get(mtype);
                 smsKey = KeyUtil.phoneMessageRegisteKey(phone);
                 break;
