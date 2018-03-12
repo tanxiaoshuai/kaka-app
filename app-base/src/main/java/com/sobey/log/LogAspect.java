@@ -1,5 +1,4 @@
 package com.sobey.log;
-import com.alibaba.fastjson.JSONObject;
 import com.sobey.config.AppConfig;
 import com.sobey.exception.FinalException;
 import com.sobey.redis.RedisUtil;
@@ -49,7 +48,7 @@ public class LogAspect {
         HttpServletRequest request = attributes.getRequest();
         logger.info("url ={}",request.getRequestURL().toString().trim());
         logger.info("method={}",request.getMethod());
-        logger.info("ip={}",request.getLocalAddr());
+        logger.info("ip={}",request.getRemoteAddr());
         logger.info("class_method={}",joinPoint.getSignature().getDeclaringTypeName()+'.'+ joinPoint.getSignature().getName());
         logger.info("args={}",joinPoint.getArgs());
     }
