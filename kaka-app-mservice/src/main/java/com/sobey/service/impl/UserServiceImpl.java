@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements IUserService{
@@ -34,7 +35,11 @@ public class UserServiceImpl implements IUserService{
     public Map<String, Object> login(UserBean userBean) throws Exception {
         ParamValidateUtil.notNull(userBean.getLoginname() , "用户名不能为空");
         ParamValidateUtil.notNull(userBean.getPwd() , "密码不能为空");
-        UserBean user = userDao.userByPhone(userBean.getLoginname());
+        UserBean user = null;
+        if (ParamValidateUtil.phoneOrNickname(userBean.getLoginname()))
+            user = userDao.userByName(userBean.getLoginname());
+        else
+            user = userDao.userByPhone(userBean.getLoginname());
         if(user == null)
             throw new FinalException(ResultInfo.USER_ISNULL);
         if(!MD5Util.PWD(userBean.getPwd()).equals(user.getPwd()))
@@ -137,15 +142,17 @@ public class UserServiceImpl implements IUserService{
         //type 1 注册 2修改
         String templateCode = null;
         String smsKey = null;
-        if(type == 1) {
-            templateCode = AppConfig.AL_SMS_REGISTE_TEMPLATECODE;
-            smsKey = KeyUtil.phoneMessageRegisteKey(phone);
+        int count = 0;
+        Set<Integer> keyCode = AppConfig.AL_SMS_TEMPLATECODE.keySet();
+        for(Integer mtype : keyCode){
+            if(mtype == type){
+                templateCode = AppConfig.AL_SMS_TEMPLATECODE.get(mtype);
+                smsKey = KeyUtil.phoneMessageRegisteKey(phone);
+                break;
+            }
+            count++;
         }
-        else if(type == 2) {
-            templateCode = AppConfig.AL_SMS_UPDATE_PWD_TEMPLATECODE;
-            smsKey = KeyUtil.phoneMessageUpdatePwdKey(phone);
-        }
-        else
+        if(count == keyCode.size())
             throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("短信验证码类型错误"));
         SendSmsResponse sendSmsResponse = SmsSendMessage.sendSms(phone ,
                 "{\"code\": \""+code.toString()+"\"}", templateCode);

@@ -19,7 +19,7 @@ public class RegexUtil {
     }
 
     public final static boolean isNull(Integer integer){
-        if(integer==null||integer==0) return true;
+        if(integer==null) return true;
         return false;
     }
 
