@@ -22,7 +22,7 @@ public class UserController {
         return userService.login(userBean);
     }
 
-    @PostMapping(value = "/user/registe")
+    @PostMapping("/user/registe")
     public Object registe(@RequestBody UserBean userBean , String code) throws Exception{
         return userService.registe(userBean , code);
     }
@@ -38,8 +38,19 @@ public class UserController {
     }
 
     @GetMapping("/sms/getMessageCode")
-    public Object sendSmsMessage(String phone , String type) throws Exception{
+    public Object sendSmsMessage(String phone , Integer type) throws Exception{
         return userService.sendSmsMessage(phone , type);
     }
+
+    @PostMapping("/user/pwdequals")
+    public Object updatePhonePwdEquals(String pwd , HttpServletRequest request) throws Exception{
+        return userService.updatePhonePwdEquals(pwd , request);
+    }
+
+    @PostMapping("/user/update/phone")
+    public Object updatePhone(String newphone , String code , HttpServletRequest request) throws Exception{
+        return userService.updatePhone(newphone , code , request);
+    }
+
 
 }

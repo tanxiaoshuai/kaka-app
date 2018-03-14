@@ -38,9 +38,9 @@ public class UserServiceImpl implements IUserService{
         ParamValidateUtil.notNull(userBean.getDeviceId() , "手机唯一标识不能为空");
         UserBean user = null;
         if (ParamValidateUtil.phoneOrNickname(userBean.getLoginname()))
-            user = userDao.userByName(userBean.getLoginname());
+            user = userDao.findBySQLRequireToBean("nickname = '"+ userBean.getLoginname() +"'" , UserBean.class);
         else
-            user = userDao.userByPhone(userBean.getLoginname());
+            userDao.findBySQLRequireToBean("phone = '"+ userBean.getLoginname() +"'" , UserBean.class);
         if(user == null)
             throw new FinalException(ResultInfo.USER_ISNULL);
         if(!MD5Util.PWD(userBean.getPwd()).equals(user.getPwd()))
@@ -80,13 +80,13 @@ public class UserServiceImpl implements IUserService{
             throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码失效"));
         if (!rcode.equals(code))
             throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码错误"));
-        UserBean user = userDao.findBySQLRequireToBean("phone = '"+userBean.getPhone()+"'" , UserBean.class);
-        if(user != null)
+        Long count = userDao.findBySQLRequireToNumber("phone = '"+userBean.getPhone()+"'" , UserBean.class);
+        if(count > 0)
             throw new FinalException(ResultInfo.PHONE_ISNOTNULL);
         ParamValidateUtil.password(userBean.getPwd());
         ParamValidateUtil.nickname(userBean.getNickname());
-        user = userDao.findBySQLRequireToBean("nickname = '" + userBean.getNickname() + "'" , UserBean.class);
-        if(user != null)
+        count = userDao.findBySQLRequireToNumber("nickname = '" + userBean.getNickname() + "'" , UserBean.class);
+        if(count > 0)
             throw new FinalException(ResultInfo.NICKNAME_ISNOTNULL);
         ParamValidateUtil.username(userBean.getUsername());
 
@@ -115,6 +115,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    @Transactional
     public Map<String, Object> updatePaw(Map<String, String> map , String code) throws Exception {
         String phone = map.get("phone");
         String newpwd = map.get("newpwd");
@@ -133,7 +134,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public Map<String, Object> sendSmsMessage(String phone , String type) throws Exception {
+    public Map<String, Object> sendSmsMessage(String phone , Integer type) throws Exception {
         ParamValidateUtil.phone(phone);
         ParamValidateUtil.notNull(type , "短信验证码不能为空");
         StringBuffer code = new StringBuffer();
@@ -147,8 +148,9 @@ public class UserServiceImpl implements IUserService{
         Set<Integer> keyCode = AppConfig.AL_SMS_TEMPLATECODE.keySet();
         for(Integer mtype : keyCode){
             if(mtype.equals(type)){
-                templateCode = AppConfig.AL_SMS_TEMPLATECODE.get(mtype);
-                smsKey = KeyUtil.phoneMessageRegisteKey(phone);
+                String[] arr = AppConfig.AL_SMS_TEMPLATECODE.get(mtype);
+                templateCode = arr[0];
+                smsKey = KeyUtil.getKey(phone , arr[1]);
                 break;
             }
             count++;
@@ -162,6 +164,41 @@ public class UserServiceImpl implements IUserService{
         if(!respCode.equals("ok"))
             throw new FinalException(ResultInfo.AL_SMS_MESSAGE_ERROR);
         redisUtil.set(smsKey , code , AppConfig.AL_SMS_OUTTIME);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public Map<String, Object> updatePhonePwdEquals(String pwd , HttpServletRequest request) throws Exception {
+        ParamValidateUtil.password(pwd);
+        String token = request.getHeader("token");
+        String userKey = (String) TokenUtil.tokenParam(token).get(0);
+        UserBean user = (UserBean) redisUtil.get(userKey);
+        if(!user.getPwd().equals(MD5Util.PWD(pwd)))
+            throw new FinalException(ResultInfo.PASSWORDERROR);
+        return ResultUtil.success();
+    }
+
+    @Override
+    @Transactional
+    public Map<String, Object> updatePhone(String newphone , String code , HttpServletRequest request) throws Exception {
+        ParamValidateUtil.phone(newphone);
+        ParamValidateUtil.notNull(code , "验证码不能为空");
+        String token = request.getHeader("token");
+        String userKey = (String) TokenUtil.tokenParam(token).get(0);
+        UserBean user = (UserBean) redisUtil.get(userKey);
+        String codeKey = KeyUtil.phoneMessageUpdatePhoneKey(user.getPhone());
+        String codeStr = (String) redisUtil.get(codeKey);
+        if(codeStr == null)
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码失效"));
+        if(!codeStr.equals(code))
+            throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("验证码错误"));
+        if(user.getPhone().equals(newphone))
+            throw new FinalException(ResultInfo.UPDATE_PHONE_ISTHIS);
+        Long count = userDao.findBySQLRequireToNumber("phone = '"+ newphone +"'" , UserBean.class);
+        if(count > 0)
+            throw new FinalException(ResultInfo.PHONE_ISNOTNULL);
+        userDao.updateBySQLRequire("phone = '"+ newphone +"' where userid = '"+ user.getUserid() +"'" , UserBean.class);
+        redisUtil.remove(codeKey);
         return ResultUtil.success();
     }
 }
