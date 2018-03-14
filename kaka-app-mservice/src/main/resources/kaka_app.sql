@@ -1,8 +1,8 @@
 /*
-SQLyog 企业版 - MySQL GUI v8.14
-MySQL - 5.6.24 : Database - kaka_app
+SQLyog 企业版 - MySQL GUI v8.14 
+MySQL - 5.7.18 : Database - kaka_app
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -32,7 +32,20 @@ CREATE TABLE `t_application` (
 
 /*Data for the table `t_application` */
 
-insert  into `t_application`(`applicationid`,`applicaname`,`applicationlog`,`sitecode`,`applicationurl`,`status`) values ('ca5af90fd2364f0787dd0be09f9f6356','直播平台',NULL,'CBCN',NULL,1),('cb5cd8b3e188432aac7b906258abef8b','选题策划',NULL,'SCTV',NULL,0),('d3b6cdb80e29433d9f08df65170901b1','PGC',NULL,'CBCN',NULL,0);
+insert  into `t_application`(`applicationid`,`applicaname`,`applicationlog`,`sitecode`,`applicationurl`,`status`) values ('29fc435c1cb64affb8b008563e71a8cf','采访任务',NULL,'BBTV',NULL,0),('ca5af90fd2364f0787dd0be09f9f6356','直播平台',NULL,'CBCN',NULL,0),('cb5cd8b3e188432aac7b906258abef8b','选题策划',NULL,'SCTV',NULL,0),('d3b6cdb80e29433d9f08df65170901b1','PGC',NULL,'CBCN',NULL,0);
+
+/*Table structure for table `t_application_user` */
+
+DROP TABLE IF EXISTS `t_application_user`;
+
+CREATE TABLE `t_application_user` (
+  `applicationid` varchar(32) DEFAULT NULL,
+  `userid` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_application_user` */
+
+insert  into `t_application_user`(`applicationid`,`userid`) values ('cb5cd8b3e188432aac7b906258abef8b','2a2c94a9f30b4ce698fe886477af94e7'),('29fc435c1cb64affb8b008563e71a8cf','2a2c94a9f30b4ce698fe886477af94e7');
 
 /*Table structure for table `t_department` */
 
@@ -82,7 +95,7 @@ CREATE TABLE `t_site` (
 
 /*Data for the table `t_site` */
 
-insert  into `t_site`(`siteid`,`sitename`,`sitecode`,`createtime`,`details`,`status`) values ('02716c8de1fc4c3381c8ef7ae1fd37bb','四川电视台','SCTV','2018-02-28 16:12:25','可视化与移动产品研发部，主要专注大数据挖掘，及移动产品的设计研发',0),('4bef52cc882b4297875e195ed844feea','初始化站点','CBCN','2018-02-28 16:12:25',NULL,0);
+insert  into `t_site`(`siteid`,`sitename`,`sitecode`,`createtime`,`details`,`status`) values ('02716c8de1fc4c3381c8ef7ae1fd37bb','四川电视台','SCTV','2018-02-28 16:12:25','可视化与移动产品研发部，主要专注大数据挖掘，及移动产品的设计研发',0),('0ca11e908da3438f9a8bf9e2869cb535','北京电视台','BBTV','2018-02-28 16:12:25',NULL,0),('4bef52cc882b4297875e195ed844feea','初始化站点','CBCN','2018-02-28 16:12:25',NULL,0);
 
 /*Table structure for table `t_user` */
 
@@ -112,7 +125,7 @@ CREATE TABLE `t_user` (
 
 /*Data for the table `t_user` */
 
-insert  into `t_user`(`userid`,`headimg`,`username`,`nickname`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`,`sitecode`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','tanshuai','13088094976','ts616823670','2018-02-28 15:40:43','2018-03-07 18:30:57','ios','1.0.0','Apple 6','this phoneid',0,'616823670@qq.com',183,0,10240,'SCTV'),('87c14e3a050f410b8401d33e6d0e3e9f',NULL,'谭小帅','tanshuai1','18380483924','e033535ea535204ffa3739f223023850','2018-03-07 17:31:35','2018-03-07 17:31:35','ios','1.0.0','Apple 6','this phoneid',0,NULL,0,0,NULL,'CBCN');
+insert  into `t_user`(`userid`,`headimg`,`username`,`nickname`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`,`sitecode`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','tanshuai','13088094976','e033535ea535204ffa3739f223023850','2018-02-28 15:40:43','2018-03-14 23:10:33','ios','1.0.0','Apple 6','this phoneid',0,'616823670@qq.com',185,1,10240,'SCTV'),('87c14e3a050f410b8401d33e6d0e3e9f',NULL,'谭小帅','tanshuai1','18380483924','e033535ea535204ffa3739f223023850','2018-03-07 17:31:35','2018-03-07 17:31:35','ios','1.0.0','Apple 6','this phoneid',0,NULL,0,0,NULL,'CBCN');
 
 /*Table structure for table `t_user_site` */
 
@@ -133,8 +146,3 @@ insert  into `t_user_site`(`userid`,`siteid`,`jobid`,`departmentid`) values ('2a
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-
-
-
-
