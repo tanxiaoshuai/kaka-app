@@ -17,6 +17,7 @@ public enum  ResultInfo {
     TOKENCHECKERROR("0009" , "认证失败"),
     NICKNAME_ISNOTNULL("0010" , "用户名已存在"),
     AL_SMS_MESSAGE_ERROR("0011" , "短信验证码获取失败"),
+    UPDATE_PHONE_ISTHIS("0012" , "修改的手机号不能与当前手机号相同"),
 
     ;
 

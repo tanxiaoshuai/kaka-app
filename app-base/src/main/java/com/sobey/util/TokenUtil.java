@@ -53,7 +53,4 @@ public class TokenUtil {
         String [] s = key.split("_");
         return new String[]{s[s.length - 1] , key};
     }
-
-
-
 }

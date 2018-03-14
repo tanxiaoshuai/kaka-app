@@ -22,6 +22,14 @@ public class KeyUtil {
         return new StringBuffer().append(AppConfig.PHONE_MESSAGE_UPDATE_PWD_PREFIX).append(phone).toString();
     }
 
+    public static String phoneMessageUpdatePhoneKey(String phone){
+        return new StringBuffer().append(AppConfig.PHONE_MESSAGE_UPDATE_PHONE_PREFIX).append(phone).toString();
+    }
+
+    public static String getKey(String str , String prefix){
+        return new StringBuffer().append(prefix).append(str).toString();
+    }
+
     public static String uuid(){
         return UUID.randomUUID().toString().replace("-" , "");
     }

@@ -131,6 +131,24 @@ public class TemplateSQL {
     }
 
     /**
+     * 根据sql条件查询对象
+     * @param sql
+     * @param c
+     * @param <T>
+     * @return
+     */
+    public static <T> String findBySQLRequireToNumber(String sql , Class<T> c){
+        StringBuffer sb = new StringBuffer();
+        sb.append("select count(1) from ");
+        sb.append(tableName(c));
+        sb.append(" where ");
+        sb.append(sql);
+        return sb.toString();
+    }
+
+
+
+    /**
      * 查询对象集合
      * @param c
      * @param c

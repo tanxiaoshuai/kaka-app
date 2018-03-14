@@ -14,13 +14,15 @@ public class AppConfig {
     public final static String REQ_IP_PREFIX = "REQ_LIMIT_";
     public final static String PHONE_MESSAGE_REGISTE_PREFIX = "PHONE_MESSAGE_REGISTE_";
     public final static String PHONE_MESSAGE_UPDATE_PWD_PREFIX = "PHONE_MESSAGE_UPDATE_PWD_";
+    public final static String PHONE_MESSAGE_UPDATE_PHONE_PREFIX = "PHONE_MESSAGE_UPDATE_PHONE_";
     /******************************阿里短信配置**********************/
-    public static Map<Integer , String> AL_SMS_TEMPLATECODE;
+    public static Map<Integer , String[]> AL_SMS_TEMPLATECODE;
     static
     {
         AL_SMS_TEMPLATECODE = new HashMap<>();
-        AL_SMS_TEMPLATECODE.put(1 , "SMS_126875012");
-        AL_SMS_TEMPLATECODE.put(2 , "SMS_126875012");
+        AL_SMS_TEMPLATECODE.put(1 , new String[]{"SMS_126875012" , PHONE_MESSAGE_REGISTE_PREFIX});
+        AL_SMS_TEMPLATECODE.put(2 , new String[]{"SMS_126875012" , PHONE_MESSAGE_UPDATE_PWD_PREFIX});
+        AL_SMS_TEMPLATECODE.put(3 , new String[]{"SMS_126875012" , PHONE_MESSAGE_UPDATE_PHONE_PREFIX});
     }
     public static final String AL_SMS_PRODUCT = "Dysmsapi";
     public static final String AL_SMS_DOMAIN = "dysmsapi.aliyuncs.com";
