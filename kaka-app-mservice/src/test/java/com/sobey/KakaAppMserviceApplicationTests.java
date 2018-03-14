@@ -91,12 +91,12 @@ public class KakaAppMserviceApplicationTests {
 //		List list = templateDao.findBySQLToList("username = '谭帅'" , UserBean.class );
 //		Object obj = templateDao.findBySQLToBean("select * from t_user where username = '谭帅'");
 //		System.out.println(JSONArray.toJSON(bean));
-		UserBean userbean = templateDao.userByPhone("13088094976");
-		System.out.println(JSONObject.toJSON(userbean));
-		System.out.println("token:" + TokenUtil.createToken(userbean.getUserid() , System.currentTimeMillis() , userbean.getDeviceId()));
+//		UserBean userbean = templateDao.userByPhone("13088094976");
+//		System.out.println(JSONObject.toJSON(userbean));
+//		System.out.println("token:" + TokenUtil.createToken(userbean.getUserid() , System.currentTimeMillis() , userbean.getDeviceId()));
 //		System.out.println(new String(Base64Utils.decodeFromString("MmEyYzk0YTlmMzBiNGNlNjk4ZmU4ODY0NzdhZjk0ZTcmMTUxOTg3MzA0MDg0NSZ1dWRiMjA4MTdqbGl5dXl0")));
 //		userbean.setToken(TokenUtil.createToken(userbean.getUserid() , System.currentTimeMillis() , userbean.getDeviceId()));
-		redisUtil.set(userbean.getUserid() , userbean);
+//		redisUtil.set(userbean.getUserid() , userbean);
 //		System.out.println(redisUtil.exists("2a2c94a9f30b4ce698fe886477af94e7"));
 //		long s = System.currentTimeMillis();
 //		try {

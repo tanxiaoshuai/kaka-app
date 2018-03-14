@@ -1,6 +1,4 @@
 package com.sobey.service.impl;
-
-import com.alibaba.fastjson.JSONObject;
 import com.sobey.dao.UserDao;
 import com.sobey.model.UserBean;
 import com.sobey.redis.IRedisListenerService;
