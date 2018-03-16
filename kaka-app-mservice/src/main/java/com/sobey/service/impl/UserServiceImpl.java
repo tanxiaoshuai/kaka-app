@@ -158,7 +158,7 @@ public class UserServiceImpl implements IUserService{
         if(count == keyCode.size())
             throw new FinalException(ResultInfo.ERROR_PARAM.setMsg("短信验证码类型错误"));
         SendSmsResponse sendSmsResponse = SmsSendMessage.sendSms(phone ,
-                "{\"code\": \""+code.toString()+"\"}", templateCode);
+                new StringBuffer().append("{\"code\": \"").append(code.toString()).append("\"}").toString() , templateCode);
         LOGGER.info("获取阿里验证码返回参数： " + JSONObject.toJSONString(sendSmsResponse));
         String respCode = sendSmsResponse.getCode().toLowerCase();
         if(!respCode.equals("ok"))

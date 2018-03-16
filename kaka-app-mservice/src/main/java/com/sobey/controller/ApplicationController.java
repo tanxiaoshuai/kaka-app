@@ -18,8 +18,13 @@ public class ApplicationController {
     @Autowired
     private IApplicationService applicationService;
 
-    @GetMapping("/application/findByList")
+    @GetMapping("/application/findByUserList")
     public Object findByApplicationList(HttpServletRequest request) throws Exception{
         return applicationService.findByApplicationList(request);
+    }
+
+    @GetMapping("/application/findBySiteList")
+    public Object findBySiteCodeList(HttpServletRequest request) throws Exception{
+        return applicationService.findBySiteCodeList(request);
     }
 }

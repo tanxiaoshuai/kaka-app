@@ -10,7 +10,6 @@ import com.sobey.util.ResultUtil;
 import com.sobey.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +39,13 @@ public class ApplicationServiceImpl implements IApplicationService {
         listAll.addAll(list);
         listAll.addAll(lists);
         return ResultUtil.success(listAll);
+    }
+
+    @Override
+    public Map<String, Object> findBySiteCodeList(HttpServletRequest request) throws Exception {
+        String sitecode = request.getHeader("sitecode");
+        ParamValidateUtil.notNull(sitecode , "站点不能为空");
+        List<ApplicationBean> list = applicationDao.findBySQLRequireToList("sitecode = '"+ sitecode +"' and status = "+StatusConfig.APPLICATION_LINE , ApplicationBean.class);
+        return ResultUtil.success(list);
     }
 }
