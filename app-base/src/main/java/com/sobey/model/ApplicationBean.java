@@ -75,4 +75,23 @@ public class ApplicationBean {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"applicationid\":\"")
+                .append(applicationid).append('\"');
+        sb.append(",\"applicaname\":\"")
+                .append(applicaname).append('\"');
+        sb.append(",\"applicationlog\":\"")
+                .append(applicationlog).append('\"');
+        sb.append(",\"sitecode\":\"")
+                .append(sitecode).append('\"');
+        sb.append(",\"applicationurl\":\"")
+                .append(applicationurl).append('\"');
+        sb.append(",\"status\":")
+                .append(status);
+        sb.append('}');
+        return sb.toString();
+    }
 }

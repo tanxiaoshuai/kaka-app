@@ -5,6 +5,7 @@ package com.sobey.config;
  */
 public class StatusConfig {
 
+    /****************************应用相关状态****************************/
     public static Integer APPLICATION_LINE = 0;//存在的应用
     public static Integer APPLICATION_DELETE = 1;//删除了的应用
 }

@@ -12,9 +12,7 @@ import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.UUID;
-
 import javax.imageio.ImageIO;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
