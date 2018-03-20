@@ -31,8 +31,4 @@ public class AppConfig {
     public static final String AL_SMS_SIGN = "谭帅";
     public static final Long AL_SMS_OUTTIME = 600L;
     public static final Integer AL_SMS_MESSAGE_CODE_SIZE = 6;
-
-
-
-
 }
