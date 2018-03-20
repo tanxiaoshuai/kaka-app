@@ -1,6 +1,6 @@
 /*
 SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.7.18 : Database - kaka_app
+MySQL - 5.6.24 : Database - kaka_app
 *********************************************************************
 */
 
@@ -125,7 +125,7 @@ CREATE TABLE `t_user` (
 
 /*Data for the table `t_user` */
 
-insert  into `t_user`(`userid`,`headimg`,`username`,`nickname`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`,`sitecode`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','tanshuai','13088094976','e033535ea535204ffa3739f223023850','2018-02-28 15:40:43','2018-03-14 23:10:33','ios','1.0.0','Apple 6','this phoneid',0,'616823670@qq.com',185,1,10240,'SCTV'),('87c14e3a050f410b8401d33e6d0e3e9f',NULL,'谭小帅','tanshuai1','18380483924','e033535ea535204ffa3739f223023850','2018-03-07 17:31:35','2018-03-07 17:31:35','ios','1.0.0','Apple 6','this phoneid',0,NULL,0,0,NULL,'CBCN');
+insert  into `t_user`(`userid`,`headimg`,`username`,`nickname`,`phone`,`pwd`,`registtime`,`lastlogintime`,`devicetype`,`appversion`,`devicemodel`,`deviceId`,`status`,`emil`,`loginnumber`,`loginstatus`,`disksize`,`sitecode`) values ('2a2c94a9f30b4ce698fe886477af94e7','http://172.16.145.51:8088/MHQ/reception/static/imgs/clue/2.jpg','谭帅','tanshuai','13088094976','e033535ea535204ffa3739f223023850','2018-02-28 15:40:43','2018-03-19 23:19:49','ios','1.0.0','Apple 6','this phoneid',0,'616823670@qq.com',193,0,10240,'SCTV'),('87c14e3a050f410b8401d33e6d0e3e9f',NULL,'谭小帅','tanshuai1','18380483924','e033535ea535204ffa3739f223023850','2018-03-07 17:31:35','2018-03-07 17:31:35','ios','1.0.0','Apple 6','this phoneid',0,NULL,0,0,NULL,'CBCN');
 
 /*Table structure for table `t_user_site` */
 
