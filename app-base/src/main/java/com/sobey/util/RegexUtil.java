@@ -413,7 +413,7 @@ public class RegexUtil {
      */
     public final static boolean match(String text, String reg) {
         if (isNull(text) || isNull(reg))
-            return false;
+        return false;
         return Pattern.compile(reg).matcher(text).matches();
     }
 }
