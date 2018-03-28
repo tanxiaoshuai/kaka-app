@@ -73,6 +73,7 @@ public class UserServiceImpl implements IUserService{
     @Transactional
     public Map<String, Object> registe(UserBean userBean , String code) throws Exception {
         ParamValidateUtil.phone(userBean.getPhone());
+        ParamValidateUtil.nickname(userBean.getNickname());
         ParamValidateUtil.notNull(code , "验证码不能为空");
         String codeKey = KeyUtil.phoneMessageRegisteKey(userBean.getPhone());
         String rcode = (String) redisUtil.get(codeKey);
